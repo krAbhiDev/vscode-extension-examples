@@ -3,7 +3,7 @@
    "displayName": "abhi-examples",
    "publisher": "kr-abhi55",
    "description": "",
-   "version": "0.0.2",
+   "version": "0.0.3",
    "engines": {
       "vscode": "^1.80.0"
    },
@@ -55,6 +55,7 @@
       ]
    },
    "scripts": {
+      "preinstall": "npx only-allow pnpm",
       "vscode:prepublish": "npm run compile",
       "compile": "tsc -p ./",
       "watch": "tsc -watch -p ./",
