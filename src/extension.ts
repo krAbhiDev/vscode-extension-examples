@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-
+import {exec} from 'node:child_process'
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 function createFile(name: string, uri: vscode.Uri) {
@@ -34,9 +34,15 @@ export function activate(context: vscode.ExtensionContext) {
 	let cmakeLists = vscode.commands.registerCommand('abhi.create.cmakelists.txt', (uri: vscode.Uri) => {
 		createFile("CMakeLists.txt", uri)
 	});
-	context.subscriptions.push(readme);
-	context.subscriptions.push(gitignore);
-	context.subscriptions.push(cmakeLists);
+	//open with 
+	let openWithCode = vscode.commands.registerCommand('abhi.open.with.code', (uri: vscode.Uri) => {
+		exec("code "+uri.path)
+	});
+	//adding
+	context.subscriptions.push(readme) 
+	context.subscriptions.push(gitignore)
+	context.subscriptions.push(cmakeLists)
+	context.subscriptions.push(openWithCode);
 
 
 }

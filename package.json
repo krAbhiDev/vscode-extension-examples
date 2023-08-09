@@ -25,6 +25,10 @@
          {
             "command": "abhi.create.cmakelists.txt",
             "title": "CMakeLists.txt"
+         },
+         {
+            "command": "abhi.open.with.code",
+            "title": "code"
          }
       ],
       "menus": {
@@ -32,6 +36,11 @@
             {
                "when": "explorerResourceIsFolder",
                "submenu": "abhi.submenu",
+               "group": "abhi"
+            },
+            {
+               "when": "explorerResourceIsFolder",
+               "submenu": "abhi.open.with",
                "group": "abhi"
             }
          ],
@@ -45,12 +54,21 @@
             {
                "command": "abhi.create.cmakelists.txt"
             }
+         ],
+         "abhi.open.with": [
+            {
+               "command": "abhi.open.with.code"
+            }
          ]
       },
       "submenus": [
          {
             "id": "abhi.submenu",
             "label": "Create"
+         },
+         {
+            "id": "abhi.open.with",
+            "label": "Open with..."
          }
       ]
    },
