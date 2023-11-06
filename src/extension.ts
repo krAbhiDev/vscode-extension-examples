@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import {exec} from 'node:child_process'
+import { exec } from 'node:child_process'
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 function createFile(name: string, uri: vscode.Uri) {
@@ -36,14 +36,27 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 	//open with 
 	let openWithCode = vscode.commands.registerCommand('abhi.open.with.code', (uri: vscode.Uri) => {
-		exec("code "+uri.path)
+		exec("code " + uri.path)
 	});
 	//adding
-	context.subscriptions.push(readme) 
+	context.subscriptions.push(readme)
 	context.subscriptions.push(gitignore)
 	context.subscriptions.push(cmakeLists)
 	context.subscriptions.push(openWithCode);
 
+	context.subscriptions.push(vscode.commands.registerCommand("abhi.test", () => {
+		const workspaceFolders = vscode.workspace.workspaceFolders;
+        if (workspaceFolders && workspaceFolders.length > 0) {
+            const selectedFolder = workspaceFolders[0]; // Assuming you want the first folder in the workspace
+            const folderPath = selectedFolder.uri.fsPath;
+            vscode.window.showInformationMessage(`Selected folder path: ${folderPath}`);
+        } else {
+            vscode.window.showWarningMessage('No workspace folders found.');
+        }
+		//vscode.window.showInformationMessage(`hello abhi`);
+		const activeTextEditor = vscode.window.activeTextEditor;
+		console.log("editor",vscode.window)
+	}))
 
 }
 

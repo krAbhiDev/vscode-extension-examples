@@ -13,6 +13,7 @@
    "activationEvents": [],
    "main": "./out/main.js",
    "contributes": {
+      
       "commands": [
          {
             "command": "abhi.create.readme.md",
@@ -29,6 +30,11 @@
          {
             "command": "abhi.open.with.code",
             "title": "code"
+         },
+         {
+            "command": "abhi.test",
+            "title": "abhi test"
+         
          }
       ],
       "menus": {
@@ -80,7 +86,7 @@
       "test-compile": "tsc -p ./",
       "package": "pnpm vsce package --no-dependencies",
       "publish": "pnpm vsce publish --no-dependencies",
-      "watch":"tsc --watch"
+      "watch":"pnpm run esbuild-watch"
    },
    "devDependencies": {
       "@types/vscode": "^1.80.0",
