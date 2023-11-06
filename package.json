@@ -3,7 +3,7 @@
    "displayName": "abhi-utils",
    "publisher": "krAbhiDev",
    "description": "",
-   "version": "1.0.0",
+   "version": "1.0.1",
    "engines": {
       "vscode": "^1.80.0"
    },
@@ -35,13 +35,18 @@
             "command": "abhi.test",
             "title": "abhi test"
          
+         },
+         {
+            "command": "abhi.create.files",
+            "title": "files"
+         
          }
       ],
       "menus": {
          "explorer/context": [
             {
                "when": "explorerResourceIsFolder",
-               "submenu": "abhi.submenu",
+               "submenu": "abhi.create",
                "group": "abhi"
             },
             {
@@ -50,7 +55,7 @@
                "group": "abhi"
             }
          ],
-         "abhi.submenu": [
+         "abhi.create": [
             {
                "command": "abhi.create.readme.md"
             },
@@ -59,6 +64,9 @@
             },
             {
                "command": "abhi.create.cmakelists.txt"
+            },
+            {
+               "command": "abhi.create.files"
             }
          ],
          "abhi.open.with": [
@@ -69,7 +77,7 @@
       },
       "submenus": [
          {
-            "id": "abhi.submenu",
+            "id": "abhi.create",
             "label": "Create"
          },
          {

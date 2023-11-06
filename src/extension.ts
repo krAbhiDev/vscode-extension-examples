@@ -22,6 +22,29 @@ function createFile(name: string, uri: vscode.Uri) {
 		}
 	);
 }
+async function handleFiles(uri: vscode.Uri) {
+	//syntax files: a b c ext:h cpp 
+	const input = await vscode.window.showInputBox({ prompt: "files: a b c  ext: h cpp", value: "files: ext:" }) || ""
+	const filesMatch = input.match(/files:\s*(.*?)\s*ext:/);
+	const extMatch = input.match(/ext:\s*(.*)/);
+
+	if (filesMatch && extMatch) {
+		const files = filesMatch[1].split(' ').filter(file => file.length > 0);
+		const ext = extMatch[1].split(' ').filter(extension => extension.length > 0);
+		console.log('files=', files);
+		console.log('ext=', ext);
+		//create file
+		for (const file of files) {
+			for (const extension of ext) {
+				const filename = `${file}.${extension}`;
+				createFile(filename, uri)
+			}
+		}
+	} else {
+		vscode.window.showErrorMessage('Invalid input format.');
+	}
+
+}
 export function activate(context: vscode.ExtensionContext) {
 	let readme = vscode.commands.registerCommand('abhi.create.readme.md', (uri: vscode.Uri) => {
 		createFile("README.md", uri)
@@ -34,6 +57,9 @@ export function activate(context: vscode.ExtensionContext) {
 	let cmakeLists = vscode.commands.registerCommand('abhi.create.cmakelists.txt', (uri: vscode.Uri) => {
 		createFile("CMakeLists.txt", uri)
 	});
+	let files = vscode.commands.registerCommand('abhi.create.files', (uri: vscode.Uri) => {
+		handleFiles(uri)
+	});
 	//open with 
 	let openWithCode = vscode.commands.registerCommand('abhi.open.with.code', (uri: vscode.Uri) => {
 		exec("code " + uri.path)
@@ -43,19 +69,11 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(gitignore)
 	context.subscriptions.push(cmakeLists)
 	context.subscriptions.push(openWithCode);
+	context.subscriptions.push(files);
 
 	context.subscriptions.push(vscode.commands.registerCommand("abhi.test", () => {
 		const workspaceFolders = vscode.workspace.workspaceFolders;
-        if (workspaceFolders && workspaceFolders.length > 0) {
-            const selectedFolder = workspaceFolders[0]; // Assuming you want the first folder in the workspace
-            const folderPath = selectedFolder.uri.fsPath;
-            vscode.window.showInformationMessage(`Selected folder path: ${folderPath}`);
-        } else {
-            vscode.window.showWarningMessage('No workspace folders found.');
-        }
-		//vscode.window.showInformationMessage(`hello abhi`);
-		const activeTextEditor = vscode.window.activeTextEditor;
-		console.log("editor",vscode.window)
+		vscode.window.showInformationMessage("abhi test")
 	}))
 
 }
