@@ -95,7 +95,7 @@ async function showMoreQuickPick(uri: vscode.Uri) {
 
 	// Show the quick pick menu
 	const selectedOption = await vscode.window.showQuickPick(options, {
-		placeHolder: 'open with'
+		placeHolder: 'open with' 
 	});
 
 	// Handle the selected option
