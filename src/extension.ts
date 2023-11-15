@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { exec } from 'node:child_process'
+import * as path from 'path'
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 function createFile(name: string, uri: vscode.Uri) {
@@ -64,19 +65,50 @@ export function activate(context: vscode.ExtensionContext) {
 	let openWithCode = vscode.commands.registerCommand('abhi.open.with.code', (uri: vscode.Uri) => {
 		exec("code " + uri.path)
 	});
+	let openWithMore = vscode.commands.registerCommand('abhi.open.with.more', (uri: vscode.Uri) => {
+		showMoreQuickPick(uri)
+	});
 	//adding
 	context.subscriptions.push(readme)
 	context.subscriptions.push(gitignore)
 	context.subscriptions.push(cmakeLists)
 	context.subscriptions.push(openWithCode);
+	context.subscriptions.push(openWithMore);
 	context.subscriptions.push(files);
 
 	context.subscriptions.push(vscode.commands.registerCommand("abhi.test", () => {
 		const workspaceFolders = vscode.workspace.workspaceFolders;
-		vscode.window.showInformationMessage("abhi test")
+		//showMoreQuickPick()
+
 	}))
 
 }
 
 // This method is called when your extension is deactivated
 export function deactivate() { }
+
+async function showMoreQuickPick(uri: vscode.Uri) {
+	// Define a list of options
+	const config = vscode.workspace.getConfiguration("abhi-utils")
+	const opensWith = { ...config.get<any>("open-with") }
+	const options = Object.keys(opensWith)
+
+	// Show the quick pick menu
+	const selectedOption = await vscode.window.showQuickPick(options, {
+		placeHolder: 'open with'
+	});
+
+	// Handle the selected option
+	if (selectedOption) {
+		const name = selectedOption
+		const p=path.join(opensWith[name] || "",name)
+		exec(p + " " + uri.path,(e)=>{
+			vscode.window.showErrorMessage(e?.message||"error")
+			console.error(e)
+		})
+		console.log(p,uri.path)
+		//vscode.window.showInformationMessage(`You selected: ${selectedOption}  ${openWiths[selectedOption]}`);
+	}
+}
+
+

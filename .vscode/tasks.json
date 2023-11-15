@@ -18,7 +18,7 @@
     // },
     {
       "type": "npm",
-      "script": "esbuild-watch",
+      "script": "watch",
       "group": "build",
 
       "problemMatcher":  ["$ts-esbuild-watch"],
